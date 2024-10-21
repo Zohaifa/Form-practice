@@ -1,0 +1,38 @@
+<FormLayout>:
+    orientation: 'vertical'
+    padding : [10,10]
+    spacing : 10
+    Label:
+        text : 'Product form'
+        font_size : 24
+        size_hint_y : None
+        height : 50
+    BoxLayout:
+        orientation : 'horizontal'
+        Label :
+            text : 'Price: '
+
+        TextInput:
+            id: price_input
+            hint_text: 'Enter price'
+            input_filter: 'float'
+            multiline: False
+    BoxLayout:
+        orientation : 'horizontal'
+        Label:
+            text: 'Category: '
+        Spinner:
+            id: category_spinner
+            text: 'Select category'
+            values : ('Food', 'Beverage', 'Electronics', 'Stationary')
+    BoxLayout:
+        orientation : 'horizontal'
+        Label:
+            text: 'In Stock: '
+        CheckBox:
+            id: in_stock_checkbox
+
+    Button:
+        text: 'Submit'
+    #    on_press: app.submit_form()
+
