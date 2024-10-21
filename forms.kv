@@ -10,6 +10,14 @@
     BoxLayout:
         orientation : 'horizontal'
         Label :
+            text : 'Product name: '
+        TextInput:
+            id: product_name_input
+            hint_text: 'Enter name'
+            multiline: False
+    BoxLayout:
+        orientation : 'horizontal'
+        Label :
             text : 'Price: '
 
         TextInput:
@@ -34,5 +42,7 @@
 
     Button:
         text: 'Submit'
-    #    on_press: app.submit_form()
+        size_hint_y : None
+        height: 50
+        on_press: app.submit_form()
 
