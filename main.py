@@ -1,4 +1,5 @@
 import kivy
+import re
 
 kivy.require('2.3.0')
 
@@ -12,6 +13,25 @@ from kivy.uix.checkbox import CheckBox
 class Forms(App):
     def build(self):
         return FormLayout()
+    def validate_text_input(self, input_field):
+        if input_field.text.strip() == "":
+        #    input_field.background_color = (1, 0, 0, 1)
+            return False, "This field cannot be empty"
+        #input_field.background_color = (1, 1, 1, 1)
+        return True, ""
+    def validate_numeric_input(self, input_field):
+        try:
+            value = float(input_field.text)
+            if value < 0:
+                return False, "Value cannot be negative"
+            return True, ""
+        except ValueError:
+            return False, "Please enter a valid number"
+    def validate_email_address(self, input_field):
+        pattern = r'^[a-zA-Z0-9._+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+        if not re.match(pattern, input_field.text):
+            return False, "Please enter a valid email address"
+        return True, ""
     def submit_form(self):
         product_name = self.root.ids.product_name_input.text
         price = self.root.ids.price_input.text
