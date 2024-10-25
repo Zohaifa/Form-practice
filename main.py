@@ -33,6 +33,14 @@ class MyForm(BoxLayout):
         self.submit_btn = Button(text = "Submit", on_press = self.submit_form)
         self.add_widget(self.submit_btn)
 
+        self.twobuttons = BoxLayout(orientation = 'horizontal')
+        self.show_from_file = Button(text = "Show from Textfile", on_press = self.display_data_from_file)
+        self.twobuttons.add_widget(self.show_from_file)
+        self.show_from_json = Button(text = "Show from Json file", on_press = self.display_data_from_json)
+        self.twobuttons.add_widget(self.show_from_json)
+
+        self.add_widget(self.twobuttons)
+
         self.error_label = Label(color = (1,0,0,1))
         self.add_widget(self.error_label)
 
@@ -104,6 +112,23 @@ class MyForm(BoxLayout):
         data.append(form_data)
         with open("form_data.json", 'w') as file:
             json.dump(data, file, indent=4)
+
+    def display_data_from_file(self, instance):
+        try:
+            with open('form_data.txt', 'r') as file:
+                data = file.read()
+            self.error_label.text = data
+        except FileNotFoundError:
+            self.error_label.text = "No data available"
+
+    def display_data_from_json(self, instance):
+        try:
+            with open('form_data.json', 'r') as file:
+                data = json.load(file)
+            display_text = "\n".join([f"Name: {item['name']}, Price: {item['price']}, Email: {item['email']}" for item in data])
+            self.error_label.text = display_text
+        except FileNotFoundError:
+            self.error_label.text = "No data available"
 
 if __name__ == '__main__':
    Forms().run()
