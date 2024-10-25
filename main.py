@@ -66,6 +66,16 @@ class MyForm(BoxLayout):
             self.error_label.color = (1, 1, 1, 1)
             self.error_label.text = "Form Submitted successfully"
 
+            form_data = {
+                "name" : self.name_input.text,
+                "price" : self.price_input.text,
+                "email" : self.email_input.text
+            }
+            self.display_data(form_data)
+
+    def display_data(self, form_data):
+        self.error_label.text = f"Name: {form_data['name']}\nPrice: {form_data['price']}\nEmail:{form_data['email']}\n"
+
     def display_error(self, errors):
         error_messages = "\n".join([error for error in errors if error])
         self.error_label.text = error_messages
