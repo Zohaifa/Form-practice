@@ -72,6 +72,7 @@ class MyForm(BoxLayout):
                 "email" : self.email_input.text
             }
             self.display_data(form_data)
+            self.save_data_to_file(form_data)
 
     def display_data(self, form_data):
         self.error_label.text = f"Name: {form_data['name']}\nPrice: {form_data['price']}\nEmail:{form_data['email']}\n"
@@ -79,6 +80,9 @@ class MyForm(BoxLayout):
     def display_error(self, errors):
         error_messages = "\n".join([error for error in errors if error])
         self.error_label.text = error_messages
+    def save_data_to_file(self, form_data):
+        with open('form_data.txt', 'a') as file:
+            file.write(f"Name: {form_data['name']}, Price: {form_data['price']}, Email: {form_data['email']}")
 
 
 if __name__ == '__main__':
