@@ -38,9 +38,9 @@ class MyForm(BoxLayout):
 
     def validate_text_input(self, input_field):
         if input_field.text.strip() == "":
-        #    input_field.background_color = (1, 0, 0, 1)
+            input_field.background_color = (1, 0, 0, 1)
             return False, "This field cannot be empty"
-        #input_field.background_color = (1, 1, 1, 1)
+        input_field.background_color = (1, 1, 1, 1)
         return True, ""
     def validate_numeric_input(self, input_field):
         try:
@@ -61,8 +61,9 @@ class MyForm(BoxLayout):
         valid_email, email_error = self.validate_email_address(self.email_input)
 
         if not (valid_name and valid_price and valid_email):
-            self.display_errors([name_error, price_error, email_error])
+            self.display_error([name_error, price_error, email_error])
         else:
+            self.error_label.color = (1, 1, 1, 1)
             self.error_label.text = "Form Submitted successfully"
 
     def display_error(self, errors):
