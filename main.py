@@ -9,10 +9,33 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
 from kivy.uix.checkbox import CheckBox
+from kivy.uix.button import Button
 
 class Forms(App):
     def build(self):
-        return FormLayout()
+        return MyForm()
+
+
+class MyForm(BoxLayout):
+    def __init__(self, **kwargs):
+        super(MyForm, self).__init__(**kwargs)
+        self.orientation = 'vertical'
+
+        self.name_input = TextInput(hint_text = 'Enter your name here')
+        self.add_widget(self.name_input)
+
+        self.price_input = TextInput(hint_text = 'Enter Price here', input_filter = 'float')
+        self.add_widget(self.price_input)
+
+        self.email_input = TextInput(hint_text = 'Enter your E-mail')
+        self.add_widget(self.email_input)
+
+        self.submit_btn = Button(text = "Submit", on_press = self.submit_form)
+        self.add_widget(self.submit_btn)
+
+        self.error_label = Label(color = (1,0,0,1))
+        self.add_widget(self.error_label)
+
     def validate_text_input(self, input_field):
         if input_field.text.strip() == "":
         #    input_field.background_color = (1, 0, 0, 1)
@@ -32,19 +55,20 @@ class Forms(App):
         if not re.match(pattern, input_field.text):
             return False, "Please enter a valid email address"
         return True, ""
-    def submit_form(self):
-        product_name = self.root.ids.product_name_input.text
-        price = self.root.ids.price_input.text
-        category = self.root.ids.category_spinner.text
-        checkbox = self.root.ids.in_stock_checkbox.active
+    def submit_form(self, instance):
+        valid_name, name_error = self.validate_text_input(self.name_input)
+        valid_price, price_error = self.validate_numeric_input(self.price_input)
+        valid_email, email_error = self.validate_email_address(self.email_input)
 
-        print(f"Product Name: {product_name}")
-        print(f"Price: {price}")
-        print(f"Category: {category}")
-        print(f"In Stock: {checkbox}")
+        if not (valid_name and valid_price and valid_email):
+            self.display_errors([name_error, price_error, email_error])
+        else:
+            self.error_label.text = "Form Submitted successfully"
 
-class FormLayout(BoxLayout):
-    pass
+    def display_error(self, errors):
+        error_messages = "\n".join([error for error in errors if error])
+        self.error_label.text = error_messages
+
 
 if __name__ == '__main__':
    Forms().run()
